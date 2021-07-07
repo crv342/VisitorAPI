@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const adminSchema = mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
       trim: true,
@@ -51,25 +51,26 @@ adminSchema.methods.toJSON = function () {
 
 adminSchema.methods.generateAuthToken = async function () {
   const user = this;
-  user.tokens = user.tokens.concat({
-    token: jwt.sign({ _id: user._id.toString() }, process.env.JWT_KEY),
-  });
+
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_KEY)
+  user.tokens = user.tokens.concat({ token })
   await user.save();
 
   return token;
 };
 
 adminSchema.statics.findByCredentials = async function (username, password) {
-  const user = Admin.findOne({ username });
+  const user = await Admin.findOne({ username });
+
   if (!user) {
     throw new Error("Invalid username or password");
   }
-
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) {
+  
+  const isMatch = await bcrypt.compare(password, user.password)
+  
+  if (!isMatch) {
     throw new Error("Invalid username or password");
   }
-
   return user;
 };
 
