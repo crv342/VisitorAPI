@@ -1,35 +1,37 @@
 const mongoose = require("mongoose");
 
-const hostSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
+const hostSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+      trim: true,
+    },
   },
-  phone: {
-    type: Number,
-    required: true,
-    trim: true,
-  },
+);
+
+hostSchema.virtual("visitors", {
+  ref: "Visitor",
+  localField: "name",
+  foreignField: "host",
 });
 
-hostSchema.virtual('visitors', {
-  ref: 'Visitor',
-  localField: '_id',
-  foreignField: 'host'
-})
-
-const purposeSchema = mongoose.Schema([
+const purposeSchema = mongoose.Schema(
   {
-    purpose: {
+    name: {
       type: String,
     },
   },
-]);
+);
 
 const detailSchema = mongoose.Schema({
-  host: hostSchema,
-  purpose: purposeSchema,
+  host: [hostSchema],
+  purpose: [purposeSchema],
 });
 
 const Detail = mongoose.model("Detail", detailSchema);
@@ -55,8 +57,6 @@ const Detail = mongoose.model("Detail", detailSchema);
 //   }]
 // });
 // console.log(detailSchema);
-
-
 
 // const Detail = mongoose.model("Employee", detailSchema);
 

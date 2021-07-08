@@ -2,11 +2,14 @@ const express = require("express");
 const router = new express.Router();
 const auth = require("../middleware/auth");
 const Admin = require("../model/admin");
+const Detail = require("../model/detail");
 
 router.post("/admin/signup", async (req, res) => {
   const user = new Admin(req.body);
   await user.save();
-  res.send("okk");
+  const details = new Detail()
+  await details.save();
+  res.status(201).send();
 });
 
 router.post("/admin/login", async (req, res) => {
