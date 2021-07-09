@@ -5,21 +5,33 @@ const auth = require('../middleware/auth');
 const Visitor = require('../model/visitor');
 
 router.post('/visitor/checkin', async (req, res) => {
-    const visitor = new Visitor(req.body)
-    visitor.checkIn = moment().format('MMMM Do YYYY, hh:mm');
-    await visitor.save()
-    res.send(visitor)
+    try {
+        const checkin = moment(new Date()).format('MMMM Do YYYY, hh:mm');
+        const visitor = new Visitor(req.body)
+        console.log(visitor)
+        // visitor.checkIn = moment(new Date()).format('MMMM Do YYYY, hh:mm');
+        // console.log(visitor)
+        const resp = await visitor.save()
+        console.log(resp)
+        res.status(200).send(visitor)
+    }
+    catch (e) {
+        console.log(e)
+        res.status(400).send("went wrong");
+    }
+
 })
 
 router.patch('/visitor/checkout/:id', async (req, res) => {
     const visitor = await Visitor.findById(req.params.id)
-    visitor.checkOut = moment().format('MMMM Do YYYY, hh:mm');
+    visitor.checkOut = new Date();
+    // visitor.checkOut = moment().format('MMMM Do YYYY, hh:mm');
     await visitor.save()
-    res.send(Visitor)
+    res.status(200).send()
 })
 router.get('/visitor', async (req, res) => {
     try {
-        if(req.query.checkedIn){
+        if(req.query.checkedOut===false){
             const visitor = await Visitor.find({ checkOut:false })
             if(!visitor){
                 res.status(404).send()

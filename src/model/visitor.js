@@ -8,14 +8,13 @@ const visitorSchema = mongoose.Schema({
   },
   checkIn: {
       type: Date,
-      default: Date.now()
+      default: new Date()
   },
   checkOut: {
       type: Date,
-      default: false,
   },
   host: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'Detail'
   },
   purpose: {
