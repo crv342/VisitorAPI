@@ -31,8 +31,8 @@ router.patch('/visitor/checkout/:id', async (req, res) => {
 })
 router.get('/visitor', async (req, res) => {
     try {
-        if(req.query.checkedOut===false){
-            const visitor = await Visitor.find({ checkOut:false })
+        if(req.query.checkOut===null){
+            const visitor = await Visitor.find({ checkOut:null })
             if(!visitor){
                 res.status(404).send()
             }
