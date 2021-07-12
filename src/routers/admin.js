@@ -24,8 +24,8 @@ router.post("/admin/login", async (req, res) => {
     } else {
       res.status(400).send()
     }
-  } catch (error) {
-    res.status(400).send();
+  } catch (e) {
+    res.status(400).send({e:e.message});
   }
 });
 
@@ -38,7 +38,7 @@ router.post("/admin/logout", auth, async (req, res) => {
 
     res.send();
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send({e:e.message});
   }
 });
 
@@ -62,7 +62,7 @@ router.patch("/admin/me", auth, async (req, res) => {
     await req.user.save();
     res.send(req.user);
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send({e:e.message});
   }
 });
 

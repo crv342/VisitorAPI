@@ -17,7 +17,7 @@ router.post('/visitor/checkin', async (req, res) => {
     }
     catch (e) {
         console.log(e)
-        res.status(400).send("went wrong");
+        res.status(400).send({e:e.message});
     }
 
 })
@@ -52,7 +52,7 @@ router.get('/visitor', async (req, res) => {
         }
         res.send(visitor)
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send({e:e.message})
     }
 })
 
