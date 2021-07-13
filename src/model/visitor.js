@@ -6,6 +6,21 @@ const visitorSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
+  phone: {
+      type: Number,
+      required: true,
+      trim: true,
+  },
+    address: {
+      type: String,
+    },
+    gender: {
+      type: String,
+        trim:true,
+    },
+    dob: {
+      type: String,
+    },
   checkIn: {
       type: Date,
       default: new Date()
@@ -20,7 +35,8 @@ const visitorSchema = mongoose.Schema({
   purpose: {
       type: String,
   }
-});
+},{ timestamps: true }
+);
 
 const Visitor = mongoose.model('Visitor',visitorSchema)
 

@@ -12,7 +12,18 @@ const hostSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-  },
+      email: {
+          type: String,
+          unique: true,
+          trim: true,
+          lowercase: true,
+          validate(value) {
+              if (!validator.isEmail(value)) {
+                  throw new Error("Email is invalid");
+              }
+          },
+      },
+  },{ timestamps: true }
 );
 
 hostSchema.virtual("visitors", {
@@ -26,7 +37,7 @@ const purposeSchema = mongoose.Schema(
     name: {
       type: String,
     },
-  },
+  },{ timestamps: true }
 );
 
 const detailSchema = mongoose.Schema({

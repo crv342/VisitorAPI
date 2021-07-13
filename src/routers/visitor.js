@@ -6,13 +6,13 @@ const Visitor = require('../model/visitor');
 
 router.post('/visitor/checkin', async (req, res) => {
     try {
-        const checkin = moment(new Date()).format('MMMM Do YYYY, hh:mm');
+        // const checkin = moment(new Date()).format('MMMM Do YYYY, hh:mm');
         const visitor = new Visitor(req.body)
-        console.log(visitor)
+        // console.log(visitor)
         // visitor.checkIn = moment(new Date()).format('MMMM Do YYYY, hh:mm');
         // console.log(visitor)
-        const resp = await visitor.save()
-        console.log(resp)
+        await visitor.save()
+        // console.log(resp)
         res.status(200).send(visitor)
     }
     catch (e) {

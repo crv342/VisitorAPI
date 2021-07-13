@@ -54,7 +54,7 @@ router.post("/purpose/add", auth, async (req, res) => {
         purpose = dataObj;
     }
 
-    res.send(purpose);
+    res.status(201).send(purpose);
 });
 
 router.delete("/purpose/remove/:id", auth, async (req, res) => {
