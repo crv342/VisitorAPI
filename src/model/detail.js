@@ -47,28 +47,5 @@ const detailSchema = mongoose.Schema({
 
 const Detail = mongoose.model("Detail", detailSchema);
 
-// const detailSchema = mongoose.Schema({
-//   host: {
-//     name: {
-//       type: String,
-//       required: true,
-//       trim: true,
-//     },
-//     phone: {
-//         type: Number,
-//         required: true,
-//         trim: true
-//     },
+module.exports = Detail
 
-//   },
-//   purposes: [{
-//       purpose: {
-//           type: String
-//       }
-//   }]
-// });
-// console.log(detailSchema);
-
-// const Detail = mongoose.model("Employee", detailSchema);
-
-module.exports = Detail;

@@ -1,34 +1,35 @@
 const express = require("express");
 const router = new express.Router();
-const moment = require('moment');
 const auth = require('../middleware/auth');
 const Visitor = require('../model/visitor');
+// const moment = require('moment');
 
 router.post('/visitor/checkin', async (req, res) => {
     try {
         // const checkin = moment(new Date()).format('MMMM Do YYYY, hh:mm');
         const visitor = new Visitor(req.body)
-        // console.log(visitor)
         // visitor.checkIn = moment(new Date()).format('MMMM Do YYYY, hh:mm');
-        // console.log(visitor)
         await visitor.save()
-        // console.log(resp)
         res.status(200).send(visitor)
     }
     catch (e) {
-        console.log(e)
         res.status(400).send({e:e.message});
     }
 
 })
 
 router.patch('/visitor/checkout/:id', async (req, res) => {
-    const visitor = await Visitor.findById(req.params.id)
-    visitor.checkOut = new Date();
-    // visitor.checkOut = moment().format('MMMM Do YYYY, hh:mm');
-    await visitor.save()
-    res.status(200).send()
+    try {
+        const visitor = await Visitor.findById(req.params.id)
+        visitor.checkOut = new Date();
+        // visitor.checkOut = moment().format('MMMM Do YYYY, hh:mm');
+        await visitor.save()
+        res.status(200).send()
+    } catch (e) {
+        res.status(500).send({e:e.message})
+    }
 })
+
 router.get('/visitor', async (req, res) => {
     try {
         if(req.query.checkOut===null){
@@ -45,8 +46,8 @@ router.get('/visitor', async (req, res) => {
             }
             res.send(visitor)
         }
-        // await req.user.populate('tasks').execPopulate()
         const visitor = await Visitor.find()
+        // await visitor.populate('host').execPopulate()
         if(visitor.length === 0){
             res.status(404).send()
         }
@@ -55,6 +56,5 @@ router.get('/visitor', async (req, res) => {
         res.status(500).send({e:e.message})
     }
 })
-
 
 module.exports = router

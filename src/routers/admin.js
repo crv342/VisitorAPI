@@ -5,11 +5,16 @@ const Admin = require("../model/admin");
 const Detail = require("../model/detail");
 
 router.post("/admin/signup", async (req, res) => {
-  const user = new Admin(req.body);
-  await user.save();
-  const details = new Detail()
-  await details.save();
-  res.status(201).send();
+  try {
+    const user = new Admin(req.body);
+    await user.save();
+    const details = new Detail()
+    await details.save();
+    res.status(201).send();
+  } catch (e) {
+    res.status(500).send({e:e.message})
+  }
+
 });
 
 router.post("/admin/login", async (req, res) => {
@@ -25,7 +30,7 @@ router.post("/admin/login", async (req, res) => {
       res.status(400).send()
     }
   } catch (e) {
-    res.status(400).send({e:e.message});
+    res.status(500).send({e:e.message});
   }
 });
 
@@ -42,13 +47,9 @@ router.post("/admin/logout", auth, async (req, res) => {
   }
 });
 
-router.get("/admin/me", auth, async (req, res) => {
-  res.send(req.user);
-});
-
-router.patch("/admin/me", auth, async (req, res) => {
+router.patch("/admin/update", auth, async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["name", "email", "password", "age"];
+  const allowedUpdates = ["username", "email","phone"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
@@ -60,7 +61,7 @@ router.patch("/admin/me", auth, async (req, res) => {
   try {
     updates.forEach((update) => (req.user[update] = req.body[update]));
     await req.user.save();
-    res.send(req.user);
+    res.status(200).send(req.user);
   } catch (e) {
     res.status(400).send({e:e.message});
   }
