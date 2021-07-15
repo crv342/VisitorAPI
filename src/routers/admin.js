@@ -14,7 +14,6 @@ router.post("/admin/signup", async (req, res) => {
   } catch (e) {
     res.status(500).send({e:e.message})
   }
-
 });
 
 router.post("/admin/login", async (req, res) => {
@@ -66,5 +65,7 @@ router.patch("/admin/update", auth, async (req, res) => {
     res.status(400).send({e:e.message});
   }
 });
+
+router.post('/admin/forgetpassword/')
 
 module.exports = router;

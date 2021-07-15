@@ -2,17 +2,22 @@ const express = require("express");
 const router = new express.Router();
 const auth = require('../middleware/auth');
 const Visitor = require('../model/visitor');
-// const moment = require('moment');
+const Detail = require('../model/detail');
+const sendCheckInEmail = require('../email/checkin')
 
 router.post('/visitor/checkin', async (req, res) => {
     try {
-        // const checkin = moment(new Date()).format('MMMM Do YYYY, hh:mm');
+        const hostId = req.body.hostid;
+        delete req.body.hostid;
         const visitor = new Visitor(req.body)
-        // visitor.checkIn = moment(new Date()).format('MMMM Do YYYY, hh:mm');
         await visitor.save()
+        const data = await Detail.find();
+        const host = data[0].host.id(hostId)
+        sendCheckInEmail(host.email,host.name,visitor.name,visitor.purpose)
         res.status(200).send(visitor)
     }
     catch (e) {
+        console.log(e.message)
         res.status(400).send({e:e.message});
     }
 
@@ -22,7 +27,6 @@ router.patch('/visitor/checkout/:id', async (req, res) => {
     try {
         const visitor = await Visitor.findById(req.params.id)
         visitor.checkOut = new Date();
-        // visitor.checkOut = moment().format('MMMM Do YYYY, hh:mm');
         await visitor.save()
         res.status(200).send()
     } catch (e) {
