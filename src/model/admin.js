@@ -65,14 +65,26 @@ adminSchema.statics.findByCredentials = async function (username, password) {
   if (!user) {
     throw new Error("Invalid username or password");
   }
-  
+
   const isMatch = await bcrypt.compare(password, user.password)
-  
+
   if (!isMatch) {
     throw new Error("Invalid username or password");
   }
   return user;
 };
+
+adminSchema.statics.checkPassword = async function (user, password) {
+
+  const isMatch = await bcrypt.compare(password, user.password)
+
+  if (!isMatch) {
+    throw new Error("Password Does Not Match!");
+  }
+  return;
+};
+
+
 
 adminSchema.pre("save", async function (next) {
   const user = this;

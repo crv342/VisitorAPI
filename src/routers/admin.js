@@ -66,6 +66,38 @@ router.patch("/admin/update", auth, async (req, res) => {
   }
 });
 
+router.post("/admin/checkpassword", auth, async (req, res) => {
+  try {
+    if (req.body.password) {
+      await Admin.checkPassword(
+          req.user,
+          req.body.password
+      );
+      res.status(200).send();
+    } else {
+      res.status(400).send({e:"Invalid Request"})
+    }
+  } catch (e) {
+    res.status(400).send({e:e.message});
+  }
+});
+
+router.post("/admin/updatepassword", async (req, res) => {
+  try {
+    if (req.body.password) {
+      await Admin.checkPassword(
+          req.user,
+          req.body.password
+      );
+      res.status(200).send();
+    } else {
+      res.status(400).send({e:"Invalid Request"})
+    }
+  } catch (e) {
+    res.status(400).send({e:e.message});
+  }
+});
+
 router.post('/admin/forgetpassword/')
 
 module.exports = router;
