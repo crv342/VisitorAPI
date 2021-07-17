@@ -24,6 +24,10 @@ const hostSchema = mongoose.Schema(
               }
           },
       },
+    sendemail: {
+        type: Boolean,
+
+    }
   },{ timestamps: true }
 );
 

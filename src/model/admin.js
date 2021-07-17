@@ -35,6 +35,9 @@ const adminSchema = mongoose.Schema(
         },
       },
     ],
+    restoken : {
+      type: String,
+    }
   },
   { timestamps: true }
 );
@@ -81,7 +84,10 @@ adminSchema.statics.checkPassword = async function (user, password) {
   if (!isMatch) {
     throw new Error("Password Does Not Match!");
   }
-  return;
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_RES_KEY,{expiresIn: '5m'})
+  user.restoken = token
+  await user.save();
+  return token;
 };
 
 

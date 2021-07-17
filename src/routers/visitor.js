@@ -13,7 +13,9 @@ router.post('/visitor/checkin', async (req, res) => {
         await visitor.save()
         const data = await Detail.find();
         const host = data[0].host.id(hostId)
-        sendCheckInEmail(host.email,host.name,visitor.name,visitor.purpose)
+        if (host.sendmail){
+            sendCheckInEmail(host.email,host.name,visitor.name,visitor.purpose)
+        }
         res.status(200).send(visitor)
     }
     catch (e) {
