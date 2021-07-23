@@ -4,23 +4,23 @@ const auth = require("../middleware/auth");
 const Detail = require("../model/detail");
 
 router.post("/host/add", auth, async (req, res) => {
-  try {
-      let host;
-      var dataObj = await Detail.find();
+    try {
+        let host;
+        var dataObj = await Detail.find();
 
-      if (dataObj.length !== 0) {
-          dataObj[0].host.push(req.body);
-          await dataObj[0].save()
-          host = dataObj[0]
-      } else {
-          dataObj = new Detail({ host: req.body });
-          await dataObj.save();
-          host = dataObj;
-      }
-      res.status(201).send(host);
-  } catch (e) {
-      res.status(500).send({e:e.message})
-  }
+        if (dataObj.length !== 0) {
+            dataObj[0].host.push(req.body);
+            await dataObj[0].save()
+            host = dataObj[0]
+        } else {
+            dataObj = new Detail({host: req.body});
+            await dataObj.save();
+            host = dataObj;
+        }
+        res.status(201).send(host);
+    } catch (e) {
+        res.status(500).send({e: e.message})
+    }
 
 });
 
@@ -35,28 +35,28 @@ router.patch("/host/update/:id", auth, async (req, res) => {
         await data[0].save();
         res.status(200).send(host);
     } catch (e) {
-        res.status(500).send({e:e.message});
+        res.status(500).send({e: e.message});
     }
 });
 
 
 router.delete("/host/remove/:id", auth, async (req, res) => {
-  try {
-      const data = await Detail.find();
+    try {
+        const data = await Detail.find();
 
-      if (data.length == 0) {
-          res.status(404);
-      }
-      const host = data[0].host.id(req.params.id).remove()
-      await data[0].save()
-      res.status(200).send(host);
-  } catch (e){
-      res.status(500).send({e:e.message})
-  }
+        if (data.length == 0) {
+            res.status(404);
+        }
+        const host = data[0].host.id(req.params.id).remove()
+        await data[0].save()
+        res.status(200).send(host);
+    } catch (e) {
+        res.status(500).send({e: e.message})
+    }
 
 });
 
-router.get("/details",async (req, res) => {
+router.get("/details", async (req, res) => {
     try {
         const data = await Detail.find();
 
@@ -65,7 +65,7 @@ router.get("/details",async (req, res) => {
         }
         res.send(data[0])
     } catch (e) {
-        res.status(500).send({e:e.message})
+        res.status(500).send({e: e.message})
     }
 
 })
@@ -80,13 +80,13 @@ router.post("/purpose/add", auth, async (req, res) => {
             await dataObj[0].save()
             purpose = dataObj[0]
         } else {
-            dataObj = new Detail({ purpose: req.body });
+            dataObj = new Detail({purpose: req.body});
             await dataObj.save();
             purpose = dataObj;
         }
         res.status(201).send(purpose);
     } catch (e) {
-        res.status(500).send({e:e.message})
+        res.status(500).send({e: e.message})
     }
 
 });
@@ -102,7 +102,7 @@ router.delete("/purpose/remove/:id", auth, async (req, res) => {
         await data[0].save()
         res.send(purpose);
     } catch (e) {
-        res.status(500).send({e:e.message})
+        res.status(500).send({e: e.message})
     }
 });
 

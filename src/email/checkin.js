@@ -7,7 +7,7 @@ const sendCheckInEmail = (email, host, visitor, purpose) => {
         to: email,
         from: 'chiragrv44@gmail.com',
         subject: 'Visitor Checked In',
-        html: `hello, ${host}<br/> You have visitor ${visitor} checke-in for ${purpose}.`
+        html: `hello, ${host}<br/> You have visitor ${visitor} checked-in for ${purpose}.`
     }).then(() => {
         console.log('success')
     }).catch((error) => {

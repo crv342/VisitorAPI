@@ -17,5 +17,5 @@ app.use(detailsRouter);
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log("server is runnig on port " + port);
+    console.log("server is runnig on port " + port);
 });
