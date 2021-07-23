@@ -18,7 +18,7 @@ router.post('/visitor/checkin', async (req, res) => {
             sendCheckInEmail(host.email, host.name, visitor.name, visitor.purpose)
         }
         if (host.sendsms) {
-            sendSms(host.email, host.name, visitor.name, visitor.purpose)
+            sendSms(host.phone, host.name, visitor.name, visitor.purpose)
         }
         res.status(200).send(visitor)
     } catch (e) {

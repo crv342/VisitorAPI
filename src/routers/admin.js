@@ -111,7 +111,7 @@ router.post("/admin/forgetpassword", async (req, res) => {
                 setTimeout(() => {
                     otp = ''
                 }, 1000 * 60)
-                sendOtpMail(user.email, otp)
+                sendOtpMail(user.email,user.username, otp)
                 res.status(200).send();
             }
         } else {
