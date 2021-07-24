@@ -40,6 +40,7 @@ const adminSchema = mongoose.Schema(
         },
         notifytime: {
             type: Number,
+            default: 3,
         },
     },
     {timestamps: true}
