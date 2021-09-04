@@ -14,6 +14,13 @@ app.use(adminRouter);
 app.use(visitorRouter);
 app.use(detailsRouter);
 
+app.get('*', (req, res) => {
+    res.send('404', {
+        title: '404',
+        errorMessage: 'Page not found.'
+    })
+})
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {

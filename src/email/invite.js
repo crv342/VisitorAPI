@@ -2,11 +2,11 @@ const sgMail = require('@sendgrid/mail')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-const sendCheckInEmail = (email, host, visitor, purpose) => {
+const sendInviteEmail = (email, name, host, purpose, code, time) => {
     sgMail.send({
         to: email,
         from: 'chiragrv44@gmail.com',
-        subject: 'Visitor Checked In',
+        subject: 'Invitation',
         html: `
 <html>
   <head>
@@ -179,8 +179,14 @@ const sendCheckInEmail = (email, host, visitor, purpose) => {
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Hi <b>${host}</b>,</p>
-                        <p>You have visitor ${visitor} checked-in for ${purpose}.</p>
+                        <p>Hello <b>${name}</b>,</p>
+                        <p>You are invited meet ${host} for ${purpose}.</p>
+                        ${ time && `Time: ${time}`}
+                        <br/><br/>
+                            <p align="center">Your Code to Check In is</p>
+                            <br/><br/>
+                            <p align="center"><b>${code}</b></p>
+                            <br/><br/>
                       </td>
                     </tr>
                   </table>
